@@ -19,7 +19,8 @@ pipeline {
         }
         stage('Run docker container') {
             steps {
-                sh 'docker run -d -p 8081:8081 app-test'
+                sh 'docker stop app-test'
+                sh 'docker run -d -p 8081:8081 app-test --name app-test'
             }
         }
     }
