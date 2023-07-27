@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh 'mvn clean install -DskipTests'
+                sh 'mvn clean package -DskipTests'
             }
         }
         stage('Test') {
@@ -12,9 +12,14 @@ pipeline {
                 sh 'mvn test'
             }
         }
-        stage('Deploy') {
+        stage('Create docker image') {
             steps {
-                echo 'Deploying....'
+                sh 'docker build -t app-test .'
+            }
+        }
+        stage('Run docker container') {
+            steps {
+                sh 'docker run -p 8081:8081 app-test'
             }
         }
     }
