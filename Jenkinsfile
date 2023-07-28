@@ -19,12 +19,14 @@ pipeline {
         }
         stage('Run docker container') {
             steps {
-                sh 'if docker ps | grep -q app-test
+                sh '''
+                    if docker ps | grep -q app-test
                     then
                     	docker stop app-test
                     else
                     	docker run -d -p 8081:8081 app-test --name app-test
-                    fi'
+                    fi
+                    '''
             }
         }
     }
