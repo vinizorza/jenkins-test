@@ -19,8 +19,12 @@ pipeline {
         }
         stage('Run docker container') {
             steps {
-                sh 'docker stop app-test'
-                sh 'docker run -d -p 8081:8081 app-test --name app-test'
+                sh 'if [ "$( docker container inspect -f '{{.State.Running}}' app-test )" == "true" ]
+                    then
+                    	echo "docker stop app-test"
+                    else
+                    	echo "docker run -d -p 8081:8081 app-test --name app-test"
+                    fi'
             }
         }
     }
