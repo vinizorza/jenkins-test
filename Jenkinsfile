@@ -23,9 +23,10 @@ pipeline {
                     if docker ps | grep -q app-test
                     then
                     	docker stop app-test
-                    else
-                    	docker run -d -p 8081:8081 app-test --name app-test
+                    	docker container rm app-test
                     fi
+
+                    docker run --name app-test -d -p 8081:8081 app-test
                     '''
             }
         }
